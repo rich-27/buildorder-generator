@@ -1,0 +1,31 @@
+<div class="page">
+  <div class="pageGrid">
+    <div class="header">
+      <h1 class="title">Fast Castle → Boom</h1>
+
+      <p class="details">27+2 pop | 12:10 | 15:40</p>
+    </div>
+
+    <div class="buildOrder" *ngIf="!showFull; else fullSVGDiv">
+        <p class="addText" *ngFor="let step of buildOrder.steps; index as stepNo">{{ join(step.additionalText, ' | ') }}</p>
+        <div class="vils" *ngFor="let step of buildOrder.steps; index as stepNo">
+          <div class="vil" *ngFor="let vil of step.vils">
+            <p>{{ vil.num + 1}}</p>
+            <app-icon [type]="vil.job" [from]="vil.from"></app-icon>
+          </div>
+        </div>
+        <p class="text" *ngFor="let step of buildOrder.steps; index as stepNo">
+          {{
+            replace(step.text, [
+              ['$vils', step.vils.length],
+              ['$time', toTime(step.time)]
+            ])
+          }}
+        </p>
+    </div>
+
+    <ng-template #fullSVGDiv>
+      <app-full-svg class="body"></app-full-svg>
+    </ng-template>
+  </div>
+</div>

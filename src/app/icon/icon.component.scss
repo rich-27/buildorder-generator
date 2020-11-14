@@ -1,0 +1,39 @@
+polygon {
+  stroke-width: 3;
+}
+
+circle {
+  stroke-width: 3;
+}
+
+@mixin red($fillProp, $strokeProp) {
+  #{$fillProp}: #da4646;
+  #{$strokeProp}: #b24848;
+}
+.red { @include red(fill, stroke); }
+.redFillStop { @include red(stop-color, _); }
+.redStrokeStop { @include red(_, stop-color); }
+
+@mixin green($fillProp, $strokeProp) {
+  #{$fillProp}: #41b952;
+  #{$strokeProp}: #3f7e3d;
+}
+.green { @include green(fill, stroke); }
+.greenFillStop { @include green(stop-color, _); }
+.greenStrokeStop { @include green(_, stop-color); }
+
+@mixin gold($fillProp, $strokeProp) {
+  #{$fillProp}: #dec62f;
+  #{$strokeProp}: #ccab35;
+}
+.gold { @include gold(fill, stroke); }
+.goldFillStop { @include gold(stop-color, _); }
+.goldStrokeStop { @include gold(_, stop-color); }
+
+@mixin purple($fillProp, $strokeProp) {
+  #{$fillProp}: #a041bb;
+  #{$strokeProp}: #6d47a7;
+}
+.purple { @include purple(fill, stroke); }
+.purpleFillStop { @include purple(stop-color, _); }
+.purpleStrokeStop { @include purple(_, stop-color); }
