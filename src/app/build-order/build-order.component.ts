@@ -1,4 +1,3 @@
-import { formatDate, formatNumber } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 
 import { Jobs } from '../schema';
@@ -38,6 +37,8 @@ export class BuildOrderComponent implements OnInit {
   }
 
   toTime(seconds: number): string {
-    return (new Date(0, 0, 1, 0, 0, seconds)).toUTCString().substr(20, 5);
+    const format = val => `0${Math.floor(val)}`.slice(-2);
+    const minutes = (seconds % 3600) / 60;
+    return [minutes, seconds % 60].map(format).join(':');
   }
 }
