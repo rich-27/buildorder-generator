@@ -1,6 +1,7 @@
-import { BuildOrderSchema, Jobs, StepSchema } from './schema';
+import { BuildOrderSchema, Jobs, StepSchema, VilStepSchema, MilStepSchema, AgeUpStepSchema, StepSchemaChecker } from './schema';
 import { BuildOrders } from './build-orders';
 import { Injectable } from '@angular/core';
+import { noop } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -30,28 +31,27 @@ export class BuildOrderService {
   }
 
   private convertStepSchema(schemaSteps: StepSchema[]): Step[] {
-    let vilTotal = 0;
-    const vilNums: number[] = [0];
-    for (const sstep of schemaSteps) {
-      if (!sstep.from) { vilTotal += sstep.vils; }
-      vilNums.push(vilTotal);
-    }
+    let lastVilIndex = 0;
 
     return schemaSteps.map<Step>((s, si) => {
-      const step: Step = {
+      let actions = [];
+      if (StepSchemaChecker.isVilStepSchema(s)) {
+        actions = Array.from({length: s.vils}, (_, i) => ActionFactory.makeVil(
+          lastVilIndex + (s.from === undefined ? i + 1 : 0),
+          s.job,
+          s.from));
+        if (s.from === undefined) { lastVilIndex += s.vils; }
+      }
+      else if (StepSchemaChecker.isMilStepSchema(s)) {
+        actions = Array(s.units).fill(0).map(() => ActionFactory.makeMil());
+      }
+      else if (StepSchemaChecker.isAgeUpStepSchema(s)) { actions = [ActionFactory.ageUp()]; }
+      return {
         text: s.text,
-        vils: Array(s.vils).fill(0).map((_, vi) => {
-          const vil: Vil = {
-            num: vilNums[si] + (!s.from ? vi : -1),
-            job: s.job
-          };
-          if (s.from) { vil.from = s.from; }
-          return vil;
-        })
+        actions,
+        time: (s as AgeUpStepSchema).time,
+        additionalText: s.additionalText
       };
-      if (s.time) { step.time = s.time; }
-      if (s.additionalText) { step.additionalText = s.additionalText; }
-      return step;
     });
   }
 }
@@ -68,13 +68,43 @@ export class BuildOrder {
 
 export class Step {
   text: string;
-  vils: Vil[];
+  actions: Action[];
   time?: number;
   additionalText?: string|string[];
 }
 
-export class Vil {
+export class Action {
+  type: string;
+}
+export class Vil extends Action {
   num: number;
-  job?: Jobs;
+  job: Jobs;
   from?: Jobs;
+}
+
+class ActionFactory {
+  static makeVil(num: number, job: Jobs, from?: Jobs): Vil {
+    return { type: 'vil', num, job, from };
+  }
+  static ageUp(): Action {
+    return {
+      type: 'age-up'
+    };
+  }
+  static makeMil(): Action {
+    return {
+      type: 'make-unit'
+    };
+  }
+}
+
+export class ActionChecker {
+  static isVil(action: Action): action is Vil {
+    if (action.type !== 'vil') { return false; }
+    if ((action as Vil).num === undefined) { return false; }
+    if ((action as Vil).job === undefined) { return false; }
+    return true;
+  }
+  static isAgeUp(action: Action): boolean { return action.type === 'age-up'; }
+  static isMakeMil(action: Action): boolean { return action.type === 'make-unit'; }
 }

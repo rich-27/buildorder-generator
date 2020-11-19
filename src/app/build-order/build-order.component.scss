@@ -1,6 +1,7 @@
 .pageGrid {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
+  row-gap: 20px;
 }
 
 .header {
@@ -9,8 +10,24 @@
   align-items: center;
 }
 
+.flexrow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .title {
-  margin-bottom: 0;
+  margin: 0;
+}
+
+.nav-arrow:not(.disabled) {
+  cursor: pointer;
+  font-size: x-large;
+  color: #ccc;
+}
+.disabled {
+  cursor: default;
+  visibility: hidden;
 }
 
 .details {
@@ -18,46 +35,88 @@
   margin-top: 0;
 }
 
-div {
-  display: flex;
-  justify-content: center;
+.attribution {
+  font-size: small;
+  margin-top: 3px;
 }
 
 .buildOrder {
   display: grid;
+  width: fit-content;
+  grid-template-columns: minmax(0, 1fr) auto auto auto minmax(0, 1fr);
+  grid-gap: 0px;
+  justify-self: center;
+}
+
+p {
+  margin: 0 10px;
+}
+
+.step {
+  display: grid;
+  grid-column: 1 / 6;
+  grid-template-columns: subgrid;
   grid-auto-flow: column;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  width: auto;
+  align-items: center;
+  grid-gap: 0px;
+}
+.step ~ .step {
+  border-top: 1px solid #c7c7c7;
 }
 
 .addText {
-  grid-column: 1 / 2;
-  justify-self: right;
-  margin: 5px;
+  grid-column: 1;
+  justify-self: end;
+  font-size: small;
 }
 
-.vils {
-  grid-column: 2 / 3;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.text {
-  grid-column: 3 / 4;
-  margin: 5px;
-}
-
-.vil {
-  display: flex;
-  flex-direction: row;
+.action {
+  grid-column: 2 / 5;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
   align-items: center;
 }
 
-.vil p {
-  margin: 5px;
+.vilNum {
+  grid-column: 2;
+  justify-self: right;
+  margin: 0 3px 0 0 ;
+  font-size: smaller;
 }
 
-app-icon {
+.icon {
+  grid-column: 3 / 5;
   height: 20px;
+  padding: 5px 0;
+}
+
+@mixin line($edge) {
+  width: 50%;
+  #{$edge}: 1px solid #aaa;
+  height: 100%;
+}
+.linel {
+  grid-column: 3;
+  @include line(border-right);
+  justify-self: left;
+}
+.liner {
+  grid-column: 4;
+  @include line(border-left);
+  justify-self: right;
+}
+.first {
+  height: 50%;
+  align-self: end;
+}
+.last {
+  height: 50%;
+  align-self: start;
+}
+
+.text {
+  grid-column: 5;
+  font-size: larger;
 }

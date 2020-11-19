@@ -1,5 +1,5 @@
 <svg height="20" width="20" viewbox="0 0 20 20">
-    <defs *ngIf="from">
+    <defs *ngIf="useGradient">
       <linearGradient [id]="fillUrl">
         <stop [class]="fromColorClass + 'FillStop'" offset="0"></stop>
         <stop [class]="jobColorClass + 'FillStop'" offset="1"></stop>
@@ -9,11 +9,8 @@
         <stop [class]="jobColorClass + 'StrokeStop'" offset="1"></stop>
       </linearGradient>
     </defs>
-    <polygon *ngIf="from else jobShape" [attr.points]="shapesToPoints.get(getShape(shape))" [attr.fill]="'url(#' + fillUrl +')'" [attr.stroke]="'url(#' + strokeUrl +')'"/>
-    <ng-template #jobShape>
-      <polygon [class]="colorClass" *ngIf="shape !== 'circle' else circle" [attr.points]="shapesToPoints.get(getShape(shape))"/>
-      <ng-template #circle>
-        <circle [class]="colorClass" cx="10" cy="10" r="7"/>
-      </ng-template>
-    </ng-template>
+
+    <polygon *ngIf="shape !== 'circle'" [class]="colorClass" [attr.points]="getPoints(shape)"
+             [attr.fill]="(useGradient ? 'url(#' + fillUrl +')' : '')" [attr.stroke]="(useGradient ? 'url(#' + strokeUrl +')' : '')"/>
+    <circle *ngIf="shape === 'circle'" [class]="colorClass" cx="10" cy="10" r="7"/>
 </svg>

@@ -1,4 +1,5 @@
 import { Jobs } from './../schema';
+import { Action, Vil, ActionChecker } from './../build-order.service';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
@@ -10,10 +11,74 @@ export class IconComponent implements OnInit {
 
   jobs = Jobs;
 
-  @Input() type: Jobs = Jobs.Shepherd;
-  @Input() from: Jobs;
+  @Input() action: Action;
 
-  jobsToShapes: Map<Jobs, Shapes> = new Map([
+  useGradient = false;
+
+  shape: string;
+  colorClass: string;
+
+  fromColorClass: string;
+  jobColorClass: string;
+  fillUrl: string;
+  strokeUrl: string;
+
+  constructor() { }
+
+  ngOnInit(): void {
+    if (ActionChecker.isVil(this.action)) {
+      this.jobColorClass = JobLookup.jobsToColors.get(this.action.job);
+
+      const retask = ((this.action as Vil).from !== undefined);
+      this.shape = (retask ? Shapes.RightArrow : JobLookup.jobsToShapes.get(this.action.job));
+      this.colorClass = this.jobColorClass;
+
+      if (retask) {
+        this.fromColorClass = JobLookup.jobsToColors.get(this.action.from);
+        this.useGradient = (this.jobColorClass !== this.fromColorClass);
+        if (this.useGradient) {
+          this.colorClass = 'linear-gradient';
+          this.fillUrl = this.fromColorClass + '→' + this.jobColorClass + 'FillGrad';
+          this.strokeUrl = this.fromColorClass + '→' + this.jobColorClass + 'StrokeGrad';
+        }
+      }
+    }
+    else if (ActionChecker.isAgeUp(this.action)) {
+      this.shape = Shapes.UpArrow;
+      this.colorClass = 'other';
+    }
+    else if (ActionChecker.isMakeMil(this.action)) {
+      this.shape = Shapes.Sword;
+      this.colorClass = 'other';
+    }
+  }
+
+  getPoints(shapeName: string): string {
+    return ShapeLookup.shapesToPoints.get(shapeName as Shapes);
+  }
+}
+
+enum Shapes {
+  Diamond = 'diamond',
+  Circle = 'circle',
+  Triangle = 'triangle',
+  Pentagon = 'pentagon',
+  Rectangle = 'rectangle',
+  RightArrow = 'right-arrow',
+  UpArrow = 'up-arrow',
+  Sword = 'swords'
+}
+
+enum Colors {
+  Red = 'red',
+  Green = 'green',
+  Gold = 'gold',
+  Grey = 'grey',
+  Purple = 'purple'
+}
+
+class JobLookup {
+  static jobsToShapes: Map<Jobs, Shapes> = new Map([
     [Jobs.Shepherd, Shapes.Diamond],
     [Jobs.Farmer, Shapes.Rectangle],
     [Jobs.BerryPicker, Shapes.Circle],
@@ -25,7 +90,7 @@ export class IconComponent implements OnInit {
     [Jobs.Builder, Shapes.Rectangle]
   ]);
 
-  jobsToColors: Map<Jobs, Colors> = new Map([
+  static jobsToColors: Map<Jobs, Colors> = new Map([
     [Jobs.Shepherd, Colors.Red],
     [Jobs.Farmer, Colors.Red],
     [Jobs.BerryPicker, Colors.Red],
@@ -36,46 +101,20 @@ export class IconComponent implements OnInit {
     [Jobs.StoneMiner, Colors.Grey],
     [Jobs.Builder, Colors.Purple]
   ]);
-
-  shapesToPoints: Map<Shapes, string> = new Map([
-    [Shapes.Diamond, this.makeShape(4, 8, 0)],
-    [Shapes.Triangle, this.makeShape(3, 8, 3 * Math.PI / 2)],
-    [Shapes.Pentagon, this.makeShape(5, 8, 3 * Math.PI / 2)],
-    [Shapes.Rectangle, this.makeShape(4, 8, Math.PI / 4)],
-    [Shapes.Arrow, '10,3 18,10 10,17 10,13 2,13 2,7 10,7']
+}
+class ShapeLookup {
+  static shapesToPoints: Map<Shapes, string> = new Map([
+    [Shapes.Diamond, ShapeLookup.makeShape(4, 8, 0)],
+    [Shapes.Triangle, ShapeLookup.makeShape(3, 8, 3 * Math.PI / 2)],
+    [Shapes.Pentagon, ShapeLookup.makeShape(5, 8, 3 * Math.PI / 2)],
+    [Shapes.Rectangle, ShapeLookup.makeShape(4, 8, Math.PI / 4)],
+    [Shapes.RightArrow, '10,3 18,10 10,17 10,13 2,13 2,7 10,7'],
+    [Shapes.UpArrow, '10,2 17,10 13,10 13,18 7,18 7,10 3,10'],
+    // [Shapes.Swords, '2,2 3,2 10,9 17,2 18,2 18,3, 11,10 18,17 18,18 17,18 10,11 3,18 2,18 2,17 9,10 2,3']
+    [Shapes.Sword, '2,8 3,8 7,12 17,2 18,2 18,3, 8,13 12,17 12,18 11,18 7,14 3,18 2,18 2,17 6,13 2,9']
   ]);
 
-  shape: string;
-
-  fromColorClass: string;
-  jobColorClass: string;
-  fillUrl: string;
-  strokeUrl: string;
-
-  colorClass: string;
-
-  constructor() { }
-
-  ngOnInit(): void {
-    if (this.from) {
-      this.shape = Shapes.Arrow;
-      this.colorClass = 'linear-gradient';
-      this.fromColorClass = this.jobsToColors.get(this.from);
-      this.jobColorClass = this.jobsToColors.get(this.type);
-      this.fillUrl = this.fromColorClass + '→' + this.jobColorClass + 'FillGrad';
-      this.strokeUrl = this.fromColorClass + '→' + this.jobColorClass + 'StrokeGrad';
-    }
-    else {
-      this.shape = this.jobsToShapes.get(this.type);
-      this.colorClass = this.jobsToColors.get(this.type);
-    }
-  }
-
-  getShape(s: string): Shapes {
-    return s as Shapes;
-  }
-
-  private makeShape(numPoints: number, radius: number, startAngle: number) {
+  private static makeShape(numPoints: number, radius: number, startAngle: number) {
     const points = [];
     const cx = 10;
     const cy = 10;
@@ -84,21 +123,4 @@ export class IconComponent implements OnInit {
     }
     return points.map(p => p.join(',')).join(' ');
   }
-}
-
-enum Shapes {
-  Diamond = 'diamond',
-  Circle = 'circle',
-  Triangle = 'triangle',
-  Pentagon = 'pentagon',
-  Rectangle = 'rectangle',
-  Arrow = 'arrow'
-}
-
-enum Colors {
-  Red = 'red',
-  Green = 'green',
-  Gold = 'gold',
-  Grey = 'grey',
-  Purple = 'purple'
 }

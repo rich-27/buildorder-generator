@@ -10,11 +10,35 @@ export class BuildOrderSchema {
 
 export class StepSchema {
   text: string;
+  additionalText?: string | string[];
+}
+
+export class VilStepSchema extends StepSchema {
   vils: number;
-  job?: Jobs;
+  job: Jobs;
   from?: Jobs;
-  time?: number;
-  additionalText?: string|string[];
+}
+export class MilStepSchema extends StepSchema {
+  units: number;
+}
+export class AgeUpStepSchema extends StepSchema {
+  time: number;
+}
+
+export class StepSchemaChecker {
+  static isVilStepSchema(step: StepSchema): step is VilStepSchema {
+    if ((step as VilStepSchema).vils === undefined) { return false; }
+    if ((step as VilStepSchema).job === undefined) { return false; }
+    return true;
+  }
+  static isMilStepSchema(step: StepSchema): step is MilStepSchema {
+    if ((step as MilStepSchema).units === undefined) { return false; }
+    return true;
+  }
+  static isAgeUpStepSchema(step: StepSchema): step is AgeUpStepSchema {
+    if ((step as AgeUpStepSchema).time === undefined) { return false; }
+    return true;
+  }
 }
 
 export enum Jobs {

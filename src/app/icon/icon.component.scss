@@ -6,6 +6,11 @@ circle {
   stroke-width: 3;
 }
 
+.other {
+  fill: #676767;
+  stroke: #3f3f3f;
+}
+
 @mixin red($fillProp, $strokeProp) {
   #{$fillProp}: #da4646;
   #{$strokeProp}: #b24848;

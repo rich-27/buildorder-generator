@@ -1,27 +1,37 @@
 <div class="page">
   <div class="pageGrid">
     <div class="header">
-      <h1 class="title">Fast Castle → Boom</h1>
+      <div class="flexrow">
+        <p class="nav-arrow" [ngClass]="{'disabled': buildOrderIndex === 0}" (click)="changeBuildOrder(-1, $event)">←</p>
+        <h1 class="title">{{ buildOrder.title }}</h1>
+        <p class="nav-arrow" [ngClass]="{'disabled': buildOrderIndex === (buildOrders.length - 1)}" (click)="changeBuildOrder(1, $event)">→</p>
+      </div>
 
-      <p class="details">27+2 pop | 12:10 | 15:40</p>
+      <p class="details">{{ buildOrder.feudalPop }}+{{ buildOrder.castlePop-buildOrder.feudalPop }} pop | {{ joinTimes([buildOrder.perfectTime, buildOrder.averageTime], ' | ') }}</p>
+      <p class="attribution">by {{ buildOrder.attribution }}</p>
     </div>
 
     <div class="buildOrder" *ngIf="!showFull; else fullSVGDiv">
-        <p class="addText" *ngFor="let step of buildOrder.steps; index as stepNo">{{ join(step.additionalText, ' | ') }}</p>
-        <div class="vils" *ngFor="let step of buildOrder.steps; index as stepNo">
-          <div class="vil" *ngFor="let vil of step.vils">
-            <p>{{ vil.num + 1}}</p>
-            <app-icon [type]="vil.job" [from]="vil.from"></app-icon>
-          </div>
+      <div class="step" *ngFor="let step of buildOrder.steps; index as stepNo">
+        <p class="addText">{{ join(step.additionalText, ' | ') }}</p>
+
+        <div class="action" *ngFor="let action of step.actions; index as actionNo">
+          <p class="vilNum">{{ (action.num !== undefined ? action.num : '&nbsp;') }}</p>
+          <div class="linel" [ngClass]="firstorlast([[step, buildOrder.steps], [action, step.actions]])"></div>
+          <div class="liner" [ngClass]="firstorlast([[step, buildOrder.steps], [action, step.actions]])"></div>
+          <app-icon class="icon" [action]="action"></app-icon>
         </div>
-        <p class="text" *ngFor="let step of buildOrder.steps; index as stepNo">
+
+        <p class="text">
           {{
             replace(step.text, [
-              ['$vils', step.vils.length],
+              ['$vils', step.actions.length],
               ['$time', toTime(step.time)]
             ])
           }}
         </p>
+      </div>
+
     </div>
 
     <ng-template #fullSVGDiv>
