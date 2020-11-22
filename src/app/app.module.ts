@@ -3,16 +3,18 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BuildOrderComponent } from './build-order/build-order.component';
-import { FullSvgComponent } from './full-svg/full-svg.component';
-import { IconComponent } from './icon/icon.component';
+import { BuildOrderComponent } from './components/build-order/build-order.component';
+import { IconComponent } from './components/icon/icon.component';
+import { StringJoinPipe } from './pipes/string-join.pipe';
+import { PointsPipe } from './pipes/points.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     BuildOrderComponent,
-    FullSvgComponent,
-    IconComponent
+    IconComponent,
+    StringJoinPipe,
+    PointsPipe
   ],
   imports: [
     BrowserModule,

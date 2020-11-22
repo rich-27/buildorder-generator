@@ -7,13 +7,13 @@
         <p class="nav-arrow" [ngClass]="{'disabled': buildOrderIndex === (buildOrders.length - 1)}" (click)="changeBuildOrder(1, $event)">→</p>
       </div>
 
-      <p class="details">{{ buildOrder.feudalPop }}+{{ buildOrder.castlePop-buildOrder.feudalPop }} pop | {{ joinTimes([buildOrder.perfectTime, buildOrder.averageTime], ' | ') }}</p>
+      <p class="details">{{ buildOrder.feudalPop }}+{{ buildOrder.castlePop-buildOrder.feudalPop }} pop | {{ [buildOrder.perfectTime, buildOrder.averageTime] | stringJoin }}</p>
       <p class="attribution">by {{ buildOrder.attribution }}</p>
     </div>
 
-    <div class="buildOrder" *ngIf="!showFull; else fullSVGDiv">
+    <div class="buildOrder">
       <div class="step" *ngFor="let step of buildOrder.steps; index as stepNo">
-        <p class="addText">{{ join(step.additionalText, ' | ') }}</p>
+        <p class="addText">{{ step.additionalText | stringJoin }}</p>
 
         <div class="action" *ngFor="let action of step.actions; index as actionNo">
           <p class="vilNum">{{ (action.num !== undefined ? action.num : '&nbsp;') }}</p>
@@ -22,20 +22,8 @@
           <app-icon class="icon" [action]="action"></app-icon>
         </div>
 
-        <p class="text">
-          {{
-            replace(step.text, [
-              ['$vils', step.actions.length],
-              ['$time', toTime(step.time)]
-            ])
-          }}
-        </p>
+        <p class="text">{{ step.text }}</p>
       </div>
-
     </div>
-
-    <ng-template #fullSVGDiv>
-      <app-full-svg class="body"></app-full-svg>
-    </ng-template>
   </div>
 </div>

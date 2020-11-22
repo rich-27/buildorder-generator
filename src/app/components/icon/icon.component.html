@@ -10,7 +10,7 @@
       </linearGradient>
     </defs>
 
-    <polygon *ngIf="shape !== 'circle'" [class]="colorClass" [attr.points]="getPoints(shape)"
+    <polygon *ngIf="shape !== Shapes.CIRCLE" [class]="colorClass" [attr.points]="shape | points"
              [attr.fill]="(useGradient ? 'url(#' + fillUrl +')' : '')" [attr.stroke]="(useGradient ? 'url(#' + strokeUrl +')' : '')"/>
-    <circle *ngIf="shape === 'circle'" [class]="colorClass" cx="10" cy="10" r="7"/>
+    <circle *ngIf="shape === Shapes.CIRCLE" [class]="colorClass" cx="10" cy="10" r="7"/>
 </svg>

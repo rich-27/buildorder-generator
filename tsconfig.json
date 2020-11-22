@@ -10,6 +10,9 @@
     "module": "es2020",
     "moduleResolution": "node",
     "importHelpers": true,
+    "paths": {
+      "@services/*": ["src/app/services/*"]
+    },
     "target": "es2015",
     "lib": [
       "es2018",
