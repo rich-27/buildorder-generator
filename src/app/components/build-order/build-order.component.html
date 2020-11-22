@@ -19,7 +19,7 @@
           <p class="vilNum">{{ (action.num !== undefined ? action.num : '&nbsp;') }}</p>
           <div class="linel" [ngClass]="firstorlast([[step, buildOrder.steps], [action, step.actions]])"></div>
           <div class="liner" [ngClass]="firstorlast([[step, buildOrder.steps], [action, step.actions]])"></div>
-          <app-icon class="icon" [action]="action"></app-icon>
+          <app-action-icon class="action-icon" [action]="action"></app-action-icon>
         </div>
 
         <p class="text">{{ step.text }}</p>

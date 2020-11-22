@@ -4,11 +4,11 @@ import { JobService } from '@services/job.service';
 import { Shapes } from '@services/shape.service';
 
 @Component({
-  selector: 'app-icon',
-  templateUrl: './icon.component.html',
-  styleUrls: ['./icon.component.scss']
+  selector: 'app-action-icon',
+  templateUrl: './action-icon.component.html',
+  styleUrls: ['./action-icon.component.scss']
 })
-export class IconComponent implements OnInit {
+export class ActionIconComponent implements OnInit {
 
   @Input() action: Action;
 

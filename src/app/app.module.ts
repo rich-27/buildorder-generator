@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BuildOrderComponent } from './components/build-order/build-order.component';
-import { IconComponent } from './components/icon/icon.component';
+import { ActionIconComponent } from './components/action-icon/action-icon.component';
 import { StringJoinPipe } from './pipes/string-join.pipe';
 import { PointsPipe } from './pipes/points.pipe';
 
@@ -12,7 +12,7 @@ import { PointsPipe } from './pipes/points.pipe';
   declarations: [
     AppComponent,
     BuildOrderComponent,
-    IconComponent,
+    ActionIconComponent,
     StringJoinPipe,
     PointsPipe
   ],
