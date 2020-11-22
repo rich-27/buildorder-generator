@@ -25,11 +25,4 @@ export class BuildOrderComponent implements OnInit {
     this.buildOrderIndex = Math.min(Math.max(this.buildOrderIndex + dir, 0), this.buildOrders.length - 1);
     this.buildOrder = this.buildOrders[this.buildOrderIndex];
   }
-
-  firstorlast<T>(checks: [entry: T, array: T[]][]): string {
-    return [
-      (checks.every(c => c[1][0] === c[0]) ? 'first' : ''),
-      (checks.every(c => c[1][c[1].length - 1] === c[0]) ? 'last' : '')
-    ].join(' ');
-  }
 }
