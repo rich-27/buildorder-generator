@@ -17,7 +17,6 @@
 
         <div class="action" *ngFor="let action of step.actions; index as actionNo">
           <p class="vilNum">{{ (action.num !== undefined ? action.num : '&nbsp;') }}</p>
-          <div class="action-line-segment"></div>
           <app-action-icon class="action-icon" [action]="action"></app-action-icon>
         </div>
 
