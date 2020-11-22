@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { JobService } from './job.service';
 
-describe('IconService', () => {
+describe('JobService', () => {
   let service: JobService;
 
   beforeEach(() => {
