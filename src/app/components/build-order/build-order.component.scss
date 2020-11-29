@@ -105,11 +105,11 @@
   background-repeat: no-repeat;
   background-position: center center;
 }
-.step:first-of-type .action:first-of-type .action-icon {
+.step:first-of-type .action:not(.action ~ .action) .action-icon {
   background-size: 2px 50%;
   background-position: center bottom;
 }
-.step:last-of-type .action:last-of-type .action-icon {
+.step:last-of-type .action:last-of-type /* <- broken by main text being a div */ .action-icon {
   background-size: 2px 50%;
   background-position: center top;
 }
