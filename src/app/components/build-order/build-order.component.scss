@@ -1,4 +1,4 @@
-.pageGrid {
+.page-grid {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   row-gap: 20px;
@@ -27,6 +27,7 @@
   cursor: pointer;
   font-size: x-large;
   color: #ccc;
+  margin: 0 10px;
 }
 .disabled {
   visibility: hidden;
@@ -52,16 +53,12 @@
   margin-top: 3px;
 }
 
-.buildOrder {
+.build-order {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto auto minmax(0, 1fr);
   width: fit-content;
   grid-gap: 0px;
   justify-self: center;
-}
-
-p {
-  margin: 0 10px;
 }
 
 .step {
@@ -76,7 +73,8 @@ p {
   border-top: 1px solid #c7c7c7;
 }
 
-.addText {
+.additional-text {
+  margin: 0 10px;
   grid-column: additional-text;
   justify-self: end;
   font-size: small;
@@ -91,7 +89,7 @@ p {
   align-items: center;
 }
 
-.vilNum {
+.vil-number {
   grid-column: vil-number;
   justify-self: right;
   margin: 0 3px 0 0;
@@ -116,7 +114,8 @@ p {
   background-position: center top;
 }
 
-.text {
+.main-text {
+  margin: 0 10px;
   grid-column: main-text;
   font-size: larger;
 }

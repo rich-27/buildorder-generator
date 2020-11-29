@@ -1,23 +1,23 @@
 <div class="page">
-  <div class="pageGrid">
+  <div class="page-grid">
     <div class="header">
-      <p class="nav-arrow" [ngClass]="{'disabled': disablePreviousButton}" (click)="!disablePreviousButton ? openBuildOrder(buildOrderIndex - 1) : 0">←</p>
+      <div class="nav-arrow" [ngClass]="{'disabled': disablePreviousButton}" (click)="!disablePreviousButton ? openBuildOrder(buildOrderIndex - 1) : 0">←</div>
         <h1 class="title">{{ buildOrder.title }}</h1>
-      <p class="nav-arrow" [ngClass]="{'disabled': disableNextButton}" (click)="!disableNextButton ? openBuildOrder(buildOrderIndex + 1) : 0">→</p>
-      <p class="details">{{ buildOrder.feudalPop }}+{{ buildOrder.castlePop-buildOrder.feudalPop }} pop | {{ [buildOrder.perfectTime, buildOrder.averageTime] | stringJoin }}</p>
-      <p class="attribution">by {{ buildOrder.attribution }}</p>
+      <div class="nav-arrow" [ngClass]="{'disabled': disableNextButton}" (click)="!disableNextButton ? openBuildOrder(buildOrderIndex + 1) : 0">→</div>
+      <div class="details">{{ buildOrder.feudalPop }}+{{ buildOrder.castlePop-buildOrder.feudalPop }} pop | {{ [buildOrder.perfectTime, buildOrder.averageTime] | stringJoin }}</div>
+      <div class="attribution">by {{ buildOrder.attribution }}</div>
     </div>
 
-    <div class="buildOrder">
+    <div class="build-order">
       <div class="step" *ngFor="let step of buildOrder.steps; index as stepNo">
-        <p class="addText">{{ step.additionalText | stringJoin }}</p>
-
+        <div class="additional-text">{{ step.additionalText | stringJoin }}</div>
+        
         <div class="action" *ngFor="let action of step.actions; index as actionNo">
-          <p class="vilNum">{{ (action.num !== undefined ? action.num : '&nbsp;') }}</p>
+          <div class="vil-number" >{{ action.num }}</div>
           <app-action-icon class="action-icon" [action]="action"></app-action-icon>
         </div>
 
-        <p class="text">{{ step.text }}</p>
+        <div class="main-text">{{ step.text }}</div>
       </div>
     </div>
   </div>
