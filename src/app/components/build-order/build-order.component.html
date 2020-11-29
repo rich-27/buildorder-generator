@@ -1,11 +1,11 @@
 <div class="page">
   <div class="pageGrid">
     <div class="header">
-      <div class="flexrow">
-        <p class="nav-arrow" [ngClass]="{'disabled': buildOrderIndex === 0}" (click)="changeBuildOrder(-1, $event)">←</p>
+      <p class="nav-arrow" [ngClass]="{'disabled': disablePreviousButton}" (click)="!disablePreviousButton ? openBuildOrder(buildOrderIndex - 1) : 0">←</p>
         <h1 class="title">{{ buildOrder.title }}</h1>
-        <p class="nav-arrow" [ngClass]="{'disabled': buildOrderIndex === (buildOrders.length - 1)}" (click)="changeBuildOrder(1, $event)">→</p>
-      </div>
+      <p class="nav-arrow" [ngClass]="{'disabled': disableNextButton}" (click)="!disableNextButton ? openBuildOrder(buildOrderIndex + 1) : 0">→</p>
+      <p class="details">{{ buildOrder.feudalPop }}+{{ buildOrder.castlePop-buildOrder.feudalPop }} pop | {{ [buildOrder.perfectTime, buildOrder.averageTime] | stringJoin }}</p>
+      <p class="attribution">by {{ buildOrder.attribution }}</p>
 
       <p class="details">{{ buildOrder.feudalPop }}+{{ buildOrder.castlePop-buildOrder.feudalPop }} pop | {{ [buildOrder.perfectTime, buildOrder.averageTime] | stringJoin }}</p>
       <p class="attribution">by {{ buildOrder.attribution }}</p>

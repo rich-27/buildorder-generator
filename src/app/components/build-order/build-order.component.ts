@@ -9,20 +9,21 @@ import { BuildOrderService, BuildOrder } from '@services/build-order.service';
 export class BuildOrderComponent implements OnInit {
 
   buildOrders: BuildOrder[];
-  buildOrderIndex = 0;
   buildOrder: BuildOrder;
+
+  get buildOrderIndex() { return this.buildOrders.indexOf(this.buildOrder); }
+  get disablePreviousButton() { return this.buildOrderIndex === 0; }
+  get disableNextButton() { return this.buildOrderIndex === this.buildOrders.length - 1; }
 
   constructor(private buildOrderService: BuildOrderService) {
   }
 
   ngOnInit(): void {
     this.buildOrders = this.buildOrderService.getBuildOrders();
-    this.changeBuildOrder();
+    this.openBuildOrder();
   }
 
-  changeBuildOrder(dir: number = 0, e?: any): void {
-    if ((e !== undefined) && (e.target.classList.contains('disabled'))) { return; }
-    this.buildOrderIndex = Math.min(Math.max(this.buildOrderIndex + dir, 0), this.buildOrders.length - 1);
-    this.buildOrder = this.buildOrders[this.buildOrderIndex];
+  openBuildOrder(index: number = 0): void {
+    this.buildOrder = this.buildOrders[index];
   }
 }

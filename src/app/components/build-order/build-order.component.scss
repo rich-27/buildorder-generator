@@ -2,48 +2,60 @@
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   row-gap: 20px;
+  justify-items: center;
 }
 
 .header {
-  display: flex;
+  display: grid;
+  width: fit-content;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    "previousButton title nextButton"
+    "details details details"
+    "attribution attribution attribution";
   flex-direction: column;
   align-items: center;
-}
-
-.flexrow {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  justify-items: center;
 }
 
 .title {
   margin: 0;
 }
 
-.nav-arrow:not(.disabled) {
+
+.nav-arrow {
   cursor: pointer;
   font-size: x-large;
   color: #ccc;
 }
 .disabled {
-  cursor: default;
   visibility: hidden;
 }
 
+.previous {
+  grid-area: previousButton;
+}
+
+.next {
+  grid-area: nextButton;
+}
+
 .details {
+  grid-area: details;
   font-style: italic;
   margin-top: 0;
 }
 
 .attribution {
+  grid-area: attribution;
   font-size: small;
   margin-top: 3px;
 }
 
 .buildOrder {
   display: grid;
-  width: fit-content;
   grid-template-columns: minmax(0, 1fr) auto auto minmax(0, 1fr);
+  width: fit-content;
   grid-gap: 0px;
   justify-self: center;
 }
@@ -54,8 +66,8 @@ p {
 
 .step {
   display: grid;
-  grid-column: 1 / 5;
-  grid-template-columns: subgrid;
+  grid-column: span 4;
+  grid-template-columns: subgrid [additional-text-start] [additional-text-end action-start] [nothing] [action-end main-text-start] [main-text-end];
   grid-auto-flow: column;
   align-items: center;
   grid-gap: 0px;
@@ -65,29 +77,29 @@ p {
 }
 
 .addText {
-  grid-column: 1;
+  grid-column: additional-text;
   justify-self: end;
   font-size: small;
 }
 
 .action {
-  grid-column: 2 / 4;
   display: grid;
+  grid-column: action;
+  grid-template-columns: subgrid [vil-number-start] [vil-number-end action-icon-start] [action-icon-end];
+  grid-template-rows: repeat(auto-fit);
   grid-auto-flow: column;
-  grid-template-columns: subgrid;
-  grid-template-rows: subgrid;
   align-items: center;
 }
 
 .vilNum {
-  grid-column: 1;
+  grid-column: vil-number;
   justify-self: right;
   margin: 0 3px 0 0;
   font-size: smaller;
 }
 
 .action-icon {
-  grid-column: 2;
+  grid-column: action-icon;
   height: 20px;
   padding: 5px 0;
   background-image: linear-gradient(#aaa, #aaa);
@@ -105,6 +117,6 @@ p {
 }
 
 .text {
-  grid-column: 4;
+  grid-column: main-text;
   font-size: larger;
 }
