@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 export class BuildOrderService {
 
   public getBuildOrders() {
-    return Object.values(BUILD_ORDERS).map(b => this.convertBuildOrder(b));
+    return Object.values(BUILD_ORDERS).filter(b => b.attribution !== '/u/JustYourTypicalNerd').map(b => this.convertBuildOrder(b));
   }
 
   public getBuildOrder(buildOrderName: BuildOrderNames): BuildOrder {

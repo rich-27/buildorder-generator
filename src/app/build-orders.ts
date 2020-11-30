@@ -1,6 +1,6 @@
 import { BuildOrderSchema, Jobs, AppendOptions } from './schema';
 
-export enum BuildOrderNames { EYECANDY_FAST_CASTLE, CICEROS_SCOUTS }
+export enum BuildOrderNames { EYECANDY_FAST_CASTLE, CICEROS_SCOUTS, CICEROS_FC_KNIGHTS }
 
 export const BUILD_ORDERS: { [key in BuildOrderNames]: BuildOrderSchema } = {
   [BuildOrderNames.EYECANDY_FAST_CASTLE]: {
@@ -227,6 +227,143 @@ export const BUILD_ORDERS: { [key in BuildOrderNames]: BuildOrderSchema } = {
       {
         text: 'Click Castle',
         time: 0
+      }
+    ]
+  },
+  [BuildOrderNames.CICEROS_FC_KNIGHTS]: {
+    title: 'Fast Castle Knights',
+    attribution: 'Cicero',
+    feudalPop: 28,
+    castlePop: 30,
+    perfectTime: ((16 * 60) + 5),
+    steps: [
+      {
+        text: '6 on Sheep',
+        vils: 6,
+        job: Jobs.SHEPHERD,
+        additionalText: '2 Houses'
+      },
+      {
+        text: '4 on Wood',
+        vils: 4,
+        job: Jobs.LUMBERJACK,
+        additionalText: ''
+      },
+      {
+        text: 'Lure Boar',
+        vils: 1,
+        job: Jobs.BOAR_LURER,
+        additionalText: ''
+      },
+      {
+        text: '1 More on Boar',
+        vils: 1,
+        job: Jobs.SHEPHERD,
+        additionalText: ''
+      },
+      {
+        text: '4 on Berries',
+        vils: 4,
+        job: Jobs.BERRY_PICKER,
+        additionalText: '2 Houses → Mill'
+      },
+      {
+        text: 'Lure 2nd Boar',
+        vils: 1,
+        job: Jobs.BOAR_LURER,
+        from: Jobs.SHEPHERD,
+        additionalText: 'With Villager Under TC'
+      },
+      {
+        text: '2 on Sheep',
+        vils: 2,
+        job: Jobs.SHEPHERD,
+        additionalText: ''
+      },
+      {
+        text: '2 Sheep → 2 Farms',
+        vils: 2,
+        job: Jobs.FARMER,
+        from: Jobs.SHEPHERD
+      },
+      {
+        text: '6 on Wood',
+        vils: 6,
+        job: Jobs.LUMBERJACK
+      },
+      {
+        text: '3 on Gold',
+        vils: 3,
+        job: Jobs.GOLD_MINER
+      },
+      {
+        text: 'Loom + 28 Pop Feudal',
+        time: 0
+      },
+      {
+        text: '2 Sheep → 2 Berries',
+        vils: 2,
+        job: Jobs.BERRY_PICKER,
+        from: Jobs.SHEPHERD,
+        additionalText: 'Before Feudal'
+      },
+      {
+        text: '6 Sheep → 6 Farms',
+        vils: 6,
+        job: Jobs.FARMER,
+        from: Jobs.SHEPHERD,
+        additionalText: 'Before Feudal'
+      },
+      {
+        text: 'Barracks',
+        vils: 1,
+        job: Jobs.BUILDER,
+        from: Jobs.LUMBERJACK,
+        additionalText: 'Before Feudal'
+      },
+      {
+        text: 'Stable',
+        vils: 1,
+        job: Jobs.BUILDER,
+        from: Jobs.BUILDER,
+        additionalText: 'Double-Bit Axe + Horse Collar'
+      },
+      {
+        text: 'Blacksmith',
+        vils: 1,
+        job: Jobs.BUILDER,
+        from: Jobs.BUILDER,
+        additionalText: ''
+      },
+      {
+        text: '2 on Gold',
+        vils: 2,
+        job: Jobs.GOLD_MINER
+      },
+      {
+        text: 'Click Castle',
+        time: 0
+      },
+      {
+        text: '2 Berries → 2 Farms',
+        vils: 2,
+        job: Jobs.FARMER,
+        from: Jobs.BERRY_PICKER,
+        additionalText: 'Before Castle'
+      },
+      {
+        text: '1 Berries → 1 Gold',
+        vils: 1,
+        job: Jobs.GOLD_MINER,
+        from: Jobs.BERRY_PICKER,
+        additionalText: 'Before Castle'
+      },
+      {
+        text: '2nd Stable',
+        vils: 1,
+        job: Jobs.BUILDER,
+        from: Jobs.BUILDER,
+        additionalText: 'Before Castle'
       }
     ]
   }
